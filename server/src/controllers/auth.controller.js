@@ -17,6 +17,15 @@ const setAuthCookie = (res, token) => {
 	});
 };
 
+const setRoleCookie = (res, role) => {
+	res.cookie('role', role || 'user', {
+		httpOnly: false,
+		secure: process.env.NODE_ENV === 'production',
+		sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+		maxAge: 7 * 24 * 60 * 60 * 1000,
+	});
+};
+
 export const register = async (req, res) => {
 	const { name, email, password } = req.body;
 	if (!name || !email || !password) return res.status(400).json({ message: 'All fields required' });
@@ -27,6 +36,7 @@ export const register = async (req, res) => {
 	const user = await User.create({ name, email, password: hash });
 	const token = signToken(user);
 	setAuthCookie(res, token);
+	setRoleCookie(res, user.role);
 	res.status(201).json({
 		user: { id: user._id, name: user.name, email: user.email, role: user.role },
 		token,
@@ -41,6 +51,7 @@ export const login = async (req, res) => {
 	if (!match) return res.status(401).json({ message: 'Invalid credentials' });
 	const token = signToken(user);
 	setAuthCookie(res, token);
+	setRoleCookie(res, user.role);
 	res.json({ user: { id: user._id, name: user.name, email: user.email, role: user.role }, token });
 };
 

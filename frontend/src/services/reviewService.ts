@@ -4,13 +4,13 @@ export type ReviewPayload = { rating: number; comment?: string }
 
 export const reviewService = {
   getProductReviews(productId: string) {
-    return http.get(`/products/${productId}/reviews`)
+    return http.get(`/reviews/product/${productId}`)
   },
   create(productId: string, data: ReviewPayload) {
-    return http.post(`/products/${productId}/reviews`, data)
+    return http.post(`/reviews/products/${productId}/reviews`, data)
   },
   remove(productId: string, reviewId: string) {
-    return http.delete(`/products/${productId}/reviews/${reviewId}`)
+    return http.delete(`/reviews/products/${productId}/reviews/${reviewId}`)
   },
 }
 

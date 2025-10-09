@@ -10,10 +10,13 @@ export const categoryService = {
     return http.post("/categories", data)
   },
   update(id: string, data: Partial<CategoryPayload>) {
-    return http.put(`/categories/${id}`, data)
+    return http.patch(`/categories/${id}`, data)
   },
   remove(id: string) {
     return http.delete(`/categories/${id}`)
+  },
+  getSubcategories(id: string) {
+    return http.get(`/categories/${id}/subcategories`)
   },
 }
 

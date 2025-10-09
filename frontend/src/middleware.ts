@@ -4,7 +4,7 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   const bypass = process.env.NEXT_PUBLIC_ALLOW_ADMIN_BYPASS === "true"
-  const token = req.cookies.get("access_token")?.value || req.headers.get("authorization")?.replace("Bearer ", "")
+  const token = req.cookies.get("token")?.value || req.headers.get("authorization")?.replace("Bearer ", "")
   const role = req.cookies.get("role")?.value || req.headers.get("x-role") || "user"
 
   // Protect admin routes

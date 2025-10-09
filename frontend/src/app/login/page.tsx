@@ -18,9 +18,17 @@ export default function LoginPage() {
     setError(null)
     setLoading(true)
     try {
-      await login(email, password)
+      const me = await login(email, password)
       const next = params.get("next")
-      router.replace(next || "/")
+      if (next) {
+        router.replace(next)
+        return
+      }
+      if (me?.role === "admin") {
+        router.replace("/admin")
+      } else {
+        router.replace("/")
+      }
     } catch (err: any) {
       setError(err?.response?.data?.message || "Login failed")
     } finally {

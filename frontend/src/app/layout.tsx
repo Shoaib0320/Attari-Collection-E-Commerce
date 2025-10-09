@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "../styles/theme.css";
@@ -28,8 +28,12 @@ export const metadata: Metadata = {
     title: "Attari Collection - Premium E-Commerce",
     description: "Discover premium fashion and lifestyle products",
   },
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -45,11 +49,9 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider defaultTheme="system" storageKey="attari-theme">
           <AuthProvider>
-            <ThemeProvider>
-              <SiteShell>
-                {children}
-              </SiteShell>
-            </ThemeProvider>
+            <SiteShell>
+              {children}
+            </SiteShell>
           </AuthProvider>
           <Toaster
             position="top-right"

@@ -97,11 +97,6 @@ export function ThemeProvider({
     setTheme(newTheme)
   }
 
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return <>{children}</>
-  }
-
   return (
     <ThemeContext.Provider value={{ theme, setTheme: handleSetTheme, actualTheme }}>
       {children}

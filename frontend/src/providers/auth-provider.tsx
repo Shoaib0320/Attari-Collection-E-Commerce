@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { authService } from "@/services/authService"
 
+
 type User = {
   _id: string
   name: string
@@ -13,9 +14,9 @@ type User = {
 type AuthContextValue = {
   user: User | null
   loading: boolean
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<User | null>
   logout: () => Promise<void>
-  refresh: () => Promise<void>
+  refresh: () => Promise<User | null>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -24,30 +25,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (): Promise<User | null> => {
     try {
       const res = await authService.me()
       const me = (res as any).data || (res as any).data?.user
       setUser(me ?? null)
+      return me ?? null
     } catch {
       setUser(null)
+      return null
     } finally {
       setLoading(false)
     }
   }, [])
 
+  console.log('Login User', user);
+
   useEffect(() => {
     refresh()
   }, [refresh])
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string): Promise<User | null> => {
     const res = await authService.login({ email, password })
     const data = (res as any).data
     const token = data?.token
     if (typeof window !== "undefined" && token) {
       window.localStorage.setItem("access_token", token)
     }
-    await refresh()
+    const me = await refresh()
+    return me
   }, [refresh])
 
   const logout = useCallback(async () => {
