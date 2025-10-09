@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import SiteShell from "@/components/site/shell";
 import { Toaster } from 'react-hot-toast';
+import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/Wishlist";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,9 +51,13 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider defaultTheme="system" storageKey="attari-theme">
           <AuthProvider>
-            <SiteShell>
-              {children}
-            </SiteShell>
+            <CartProvider>
+              <WishlistProvider>
+                <SiteShell>
+                  {children}
+                </SiteShell>
+              </WishlistProvider>
+            </CartProvider>
           </AuthProvider>
           <Toaster
             position="top-right"

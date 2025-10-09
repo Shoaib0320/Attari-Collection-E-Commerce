@@ -27,12 +27,14 @@ import {
   Settings
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { useCart } from "@/context/CartContext"
 
 export default function SiteHeader() {
   const [categories, setCategories] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const { user, logout } = useAuth()
+  const { getCartItemsCount } = useCart()
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -166,14 +168,17 @@ export default function SiteHeader() {
               </Button>
             </Link>
 
-            <Link href="/cart">
-              <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px]">
-                  0
-                </Badge>
-              </Button>
-            </Link>
+
+                  <Link href="/cart">
+        <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <ShoppingCart className="h-5 w-5" />
+          {getCartItemsCount() > 0 && (
+            <span className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-blue-600 text-white text-xs font-bold rounded-full">
+              {getCartItemsCount()}
+            </span>
+          )}
+        </button>
+      </Link>
 
             {user ? (
               <DropdownMenu>
