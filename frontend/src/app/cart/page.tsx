@@ -31,7 +31,7 @@ export default function CartPage() {
           <p className="text-gray-600 mb-6">Add some products to your cart to see them here</p>
           <Link 
             href="/products"
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-secondary hover:text-secondary-foreground border-1 border-primary transition-colors"
           >
             Continue Shopping
             <ArrowRight className="w-5 h-5" />

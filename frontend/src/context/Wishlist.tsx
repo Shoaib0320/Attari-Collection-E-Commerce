@@ -7,6 +7,7 @@ interface WishlistItem {
   title: string
   price: number
   image: string
+  category?: string
 }
 
 interface WishlistContextType {
@@ -14,6 +15,9 @@ interface WishlistContextType {
   addToWishlist: (product: any) => void
   removeFromWishlist: (productId: string) => void
   isInWishlist: (productId: string) => boolean
+  moveToCart: (productId: string, cartContext: any) => void
+  clearWishlist: () => void
+  getWishlistCount: () => number
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined)
@@ -25,7 +29,12 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const savedWishlist = localStorage.getItem('wishlist')
     if (savedWishlist) {
-      setWishlistItems(JSON.parse(savedWishlist))
+      try {
+        setWishlistItems(JSON.parse(savedWishlist))
+      } catch (error) {
+        console.error('Error parsing wishlist:', error)
+        setWishlistItems([])
+      }
     }
   }, [])
 
@@ -36,27 +45,57 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const addToWishlist = (product: any) => {
     setWishlistItems(prevItems => {
+      // Check if product already exists in wishlist
       if (prevItems.find(item => item.id === product._id)) {
         return prevItems
       }
-      return [
-        ...prevItems,
-        {
-          id: product._id,
-          title: product.title,
-          price: product.price,
-          image: product.images?.[0]?.url || ''
-        }
-      ]
+      
+      const newItem: WishlistItem = {
+        id: product._id,
+        title: product.title,
+        price: product.price,
+        image: product.images?.[0]?.url || '',
+        category: product.category?.name
+      }
+      
+      return [...prevItems, newItem]
     })
   }
 
   const removeFromWishlist = (productId: string) => {
-    setWishlistItems(prevItems => prevItems.filter(item => item.id !== productId))
+    setWishlistItems(prevItems => {
+      return prevItems.filter(item => item.id !== productId)
+    })
+  }
+
+  const moveToCart = (productId: string, cartContext: any) => {
+    const item = wishlistItems.find(item => item.id === productId)
+    if (item && cartContext) {
+      // Add to cart
+      const product = {
+        _id: item.id,
+        title: item.title,
+        price: item.price,
+        images: [{ url: item.image }],
+        category: { name: item.category }
+      }
+      cartContext.addToCart(product)
+      
+      // Remove from wishlist
+      removeFromWishlist(productId)
+    }
+  }
+
+  const clearWishlist = () => {
+    setWishlistItems([])
   }
 
   const isInWishlist = (productId: string) => {
     return wishlistItems.some(item => item.id === productId)
+  }
+
+  const getWishlistCount = () => {
+    return wishlistItems.length
   }
 
   return (
@@ -64,7 +103,10 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       wishlistItems,
       addToWishlist,
       removeFromWishlist,
-      isInWishlist
+      isInWishlist,
+      moveToCart,
+      clearWishlist,
+      getWishlistCount
     }}>
       {children}
     </WishlistContext.Provider>

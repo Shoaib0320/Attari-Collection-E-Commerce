@@ -9,18 +9,18 @@ import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/providers/auth-provider"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { 
-  Menu, 
-  ChevronDown, 
-  Search, 
-  ShoppingCart, 
-  Heart, 
+import {
+  Menu,
+  ChevronDown,
+  Search,
+  ShoppingCart,
+  Heart,
   User,
   LogOut,
   ShoppingBag,
@@ -92,16 +92,16 @@ export default function SiteHeader() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="text-sm font-medium transition-colors hover:text-primary relative group"
             >
               Home
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </Link>
-            
-            <Link 
-              href="/products" 
+
+            <Link
+              href="/products"
               className="text-sm font-medium transition-colors hover:text-primary relative group"
             >
               Products
@@ -118,7 +118,7 @@ export default function SiteHeader() {
                 <DropdownMenuContent align="start" className="min-w-[240px]">
                   {categories.slice(0, 10).map((category) => (
                     <DropdownMenuItem key={category._id || category.name} asChild>
-                      <Link 
+                      <Link
                         href={`/products?category=${encodeURIComponent(category._id || category.name)}`}
                         className="cursor-pointer"
                       >
@@ -135,8 +135,8 @@ export default function SiteHeader() {
               </DropdownMenu>
             )}
 
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="text-sm font-medium transition-colors hover:text-primary relative group"
             >
               Contact
@@ -148,9 +148,9 @@ export default function SiteHeader() {
           <form onSubmit={handleSearch} className="hidden md:block flex-1 max-w-md">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input 
-                className="pl-10 pr-4 h-10 bg-muted/50 border-muted-foreground/20 focus:bg-background" 
-                placeholder="Search for products..." 
+              <Input
+                className="pl-10 pr-4 h-10 bg-muted/50 border-muted-foreground/20 focus:bg-background"
+                placeholder="Search for products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -169,16 +169,16 @@ export default function SiteHeader() {
             </Link>
 
 
-                  <Link href="/cart">
-        <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
-          <ShoppingCart className="h-5 w-5" />
-          {getCartItemsCount() > 0 && (
-            <span className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-blue-600 text-white text-xs font-bold rounded-full">
-              {getCartItemsCount()}
-            </span>
-          )}
-        </button>
-      </Link>
+            <Link href="/cart">
+              <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <ShoppingCart className="h-5 w-5" />
+                {getCartItemsCount() > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-blue-600 text-white text-xs font-bold rounded-full">
+                    {getCartItemsCount()}
+                  </span>
+                )}
+              </button>
+            </Link>
 
             {user ? (
               <DropdownMenu>
@@ -250,9 +250,9 @@ export default function SiteHeader() {
                   <form onSubmit={handleSearch}>
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        className="pl-10" 
-                        placeholder="Search..." 
+                      <Input
+                        className="pl-10"
+                        placeholder="Search..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />
@@ -261,14 +261,14 @@ export default function SiteHeader() {
                 </div>
 
                 <nav className="flex flex-col p-4 space-y-1">
-                  <Link 
-                    href="/" 
+                  <Link
+                    href="/"
                     className="flex items-center px-3 py-2.5 rounded-lg hover:bg-accent transition-colors font-medium"
                   >
                     Home
                   </Link>
-                  <Link 
-                    href="/products" 
+                  <Link
+                    href="/products"
                     className="flex items-center px-3 py-2.5 rounded-lg hover:bg-accent transition-colors font-medium"
                   >
                     Products
@@ -280,7 +280,7 @@ export default function SiteHeader() {
                         Categories
                       </div>
                       {categories.slice(0, 8).map((c) => (
-                        <Link 
+                        <Link
                           key={c._id || c.name}
                           href={`/products?category=${encodeURIComponent(c._id || c.name)}`}
                           className="flex items-center px-3 py-2 rounded-lg hover:bg-accent transition-colors text-sm"
@@ -288,7 +288,7 @@ export default function SiteHeader() {
                           {c.name}
                         </Link>
                       ))}
-                      <Link 
+                      <Link
                         href="/products"
                         className="flex items-center px-3 py-2 rounded-lg hover:bg-accent transition-colors text-sm font-medium text-primary"
                       >
@@ -297,23 +297,23 @@ export default function SiteHeader() {
                     </div>
                   )}
 
-                  <Link 
-                    href="/contact" 
+                  <Link
+                    href="/contact"
                     className="flex items-center px-3 py-2.5 rounded-lg hover:bg-accent transition-colors font-medium"
                   >
                     Contact
                   </Link>
 
                   <div className="pt-4 mt-4 border-t space-y-1">
-                    <Link 
-                      href="/wishlist" 
+                    <Link
+                      href="/wishlist"
                       className="flex items-center px-3 py-2.5 rounded-lg hover:bg-accent transition-colors"
                     >
                       <Heart className="mr-3 h-4 w-4" />
                       Wishlist
                     </Link>
-                    <Link 
-                      href="/cart" 
+                    <Link
+                      href="/cart"
                       className="flex items-center px-3 py-2.5 rounded-lg hover:bg-accent transition-colors"
                     >
                       <ShoppingCart className="mr-3 h-4 w-4" />
@@ -326,23 +326,23 @@ export default function SiteHeader() {
                       <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
                         {user.name || 'User'}
                       </div>
-                      <Link 
-                        href="/orders" 
+                      <Link
+                        href="/orders"
                         className="flex items-center px-3 py-2.5 rounded-lg hover:bg-accent transition-colors"
                       >
                         <ShoppingBag className="mr-3 h-4 w-4" />
                         My Orders
                       </Link>
                       {user.role === 'admin' && (
-                        <Link 
-                          href="/admin" 
+                        <Link
+                          href="/admin"
                           className="flex items-center px-3 py-2.5 rounded-lg hover:bg-accent transition-colors"
                         >
                           <Settings className="mr-3 h-4 w-4" />
                           Admin Panel
                         </Link>
                       )}
-                      <button 
+                      <button
                         onClick={logout}
                         className="w-full flex items-center px-3 py-2.5 rounded-lg hover:bg-accent transition-colors text-destructive"
                       >
